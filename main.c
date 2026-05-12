@@ -2,6 +2,6 @@
 #include "calc.h"
 int main() {
 int result = add(3, 5);
-printf("Result = %d\n", result);
+printf("結果 = %d\n", result);
 return 0;
 }
