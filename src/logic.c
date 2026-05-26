@@ -10,6 +10,7 @@ Task titleとタスクの番号をまとめた構造体*/
 void addTask(Task tasks[],int count,char title[]){
     strcpy(tasks[count].title,title); //asks[count].titleにtitleを保存
     tasks[count].completed = 0; //タスク未完了=0
+}
 
 //完了
 void completeTask(Task tasks[],int index){
@@ -28,10 +29,10 @@ void showTasks(Task tasks[],int count){
     for (int i=0;i < count;i++){
         printf("%d : %s",i,tasks[i].title);
 
-        if(taska[i].completed == 1){
+        if(tasks[i].completed == 1){
             printf("[完了]");
         }else{
-            print("[未完了]");
+            printf("[未完了]");
 
         }
 

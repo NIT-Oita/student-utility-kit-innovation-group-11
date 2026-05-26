@@ -1,18 +1,14 @@
 #include<stdio.h>
 
+
 char name[100];
 
-int main(){
-    printf("ƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
-    scanf_s("%c",name);
-    return 0;
-}
 
-//“Ç‚İæ‚Á‚½ƒ^ƒXƒN‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶
+//ï¿½Ç‚İï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É•Û‘ï¿½
 void datamana(){
     FILE *task = fopen("task.bin", "wb");
     if (task == NULL) {
-        perror("ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½");
+        perror("ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½");
     }else{
         fwrite(name, sizeof(int), sizeof(name), task);
     }
