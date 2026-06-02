@@ -9,7 +9,7 @@ typedef struct{
     int completed;
 }Task;
 
-//関数宣言
+//�֐��錾
 void addTask(Task tasks[], int count, char title[]);
 void completeTask(Task tasks[], int index);
 void deleteTask(Task tasks[], int count, int index);

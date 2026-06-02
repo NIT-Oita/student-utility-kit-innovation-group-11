@@ -1,15 +1,12 @@
 #include<stdio.h>
 
+extern char title[100];
 
-char name[100];
-
-
-//ï¿½Ç‚İï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½É•Û‘ï¿½
 void datamana(){
-    FILE *task = fopen("task.bin", "wb");
+    FILE *task = fopen("../data/task.bin", "wb");
     if (task == NULL) {
-        perror("ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½");
+        perror("ƒtƒ@ƒCƒ‹‚ª•Û‘¶‚³‚ê‚Ü‚¹‚ñ‚Å‚µ‚½B");
     }else{
-        fwrite(name, sizeof(int), sizeof(name), task);
+        fwrite(title, sizeof(int), sizeof(title), task);
     }
 }

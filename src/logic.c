@@ -2,37 +2,37 @@
 #include<string.h>
 #include "logic.h"
 
-/*completed ã€€å®Œäº†ã‹æœªå®Œäº†ã‹
-int index ã‚¿ã‚¹ã‚¯ã®ç•ªå·
-Task titleã¨ã‚¿ã‚¹ã‚¯ã®ç•ªå·ã‚’ã¾ã¨ã‚ãŸæ§‹é€ ä½“*/
+/*completed @Š®—¹‚©–¢Š®—¹‚©
+int index ƒ^ƒXƒN‚Ì”Ô†
+Task title‚Æƒ^ƒXƒN‚Ì”Ô†‚ğ‚Ü‚Æ‚ß‚½\‘¢‘Ì*/
 
-//ã‚¿ã‚¹ã‚¯è¿½åŠ 
+//ƒ^ƒXƒN’Ç‰Á
 void addTask(Task tasks[],int count,char title[]){
-    strcpy(tasks[count].title,title); //asks[count].titleã«titleã‚’ä¿å­˜
-    tasks[count].completed = 0; //ã‚¿ã‚¹ã‚¯æœªå®Œäº†=0
+    strcpy(tasks[count].title,title); //asks[count].title‚Étitle‚ğ•Û‘¶
+    tasks[count].completed = 0; //ƒ^ƒXƒN–¢Š®—¹=0
 }
 
-//å®Œäº†
+//Š®—¹
 void completeTask(Task tasks[],int index){
-    tasks[index].completed = 1; //ã‚¿ã‚¹ã‚¯å®Œäº†=1
+    tasks[index].completed = 1; //ƒ^ƒXƒNŠ®—¹=1
 }
 
-//ã‚¿ã‚¹ã‚¯å‰Šé™¤
+//ƒ^ƒXƒNíœ
 void deleteTask(Task tasks[],int count,int index){
     for (int i = index;i < count -1;i++){
         tasks[i] = tasks[i + 1];
     }
 }
 
-//è¡¨ç¤º
+//•\¦
 void showTasks(Task tasks[],int count){
     for (int i=0;i < count;i++){
         printf("%d : %s",i,tasks[i].title);
 
         if(tasks[i].completed == 1){
-            printf("[å®Œäº†]");
+            printf("[Š®—¹]");
         }else{
-            printf("[æœªå®Œäº†]");
+            printf("[–¢Š®—¹]");
 
         }
 
