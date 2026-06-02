@@ -4,10 +4,15 @@
 #include "logic.h"
 #include "storage.h"
 
-// 静的変数でタスク一覧を保持
+// 静的変数でタスク一覧とジャンル一覧を保持
 static Task tasks[MAX_TASKS];
 static int task_count = 0;
+static char genres[MAX_GENRES][GENRE_LEN];
+static int genre_count = 0;
 static int is_loaded = 0; // 読込フラグ
+
+// 内部ヘルパー関数宣言
+static void input_genre(void);
 
 void start_screen(void) {
     printf("==================================================\n");
@@ -28,7 +33,7 @@ void start_screen(void) {
 void main_screen(void) {
     // 起動時に1度だけデータを読み込む
     if (!is_loaded) {
-        task_count = loadTasks(tasks);
+        task_count = loadTasks(tasks, genres, &genre_count);
         is_loaded = 1;
     }
 
@@ -41,15 +46,16 @@ void main_screen(void) {
         printf("  2. 新しいタスクの追加\n");
         printf("  3. タスクを完了にする\n");
         printf("  4. タスクの削除\n");
-        printf("  5. 終了\n");
+        printf("  5. 新しいジャンルの追加\n");
+        printf("  6. 終了\n");
         printf("==================================================\n");
-        printf("番号を入力してください (1-5): ");
+        printf("番号を入力してください (1-6): ");
         fflush(stdout);
 
         if (scanf("%d", &choice) != 1) {
             // 文字などが入力された場合の無限ループを防ぐため、バッファをクリアする
             while (getchar() != '\n');
-            printf("無効な入力です。1から5の数値を入力してください。\n");
+            printf("無効な入力です。1から6の数値を入力してください。\n");
             continue;
         }
         // scanfで残った改行文字を消費する
@@ -57,7 +63,7 @@ void main_screen(void) {
 
         if (choice == 1) {
             printf("\n--- タスク一覧 ---\n");
-            showTasks(tasks, task_count);
+            showTasks(tasks, task_count, genres, genre_count);
         } else if (choice == 2) {
             // タスク追加画面の呼び出し
             input_data();
@@ -66,14 +72,14 @@ void main_screen(void) {
             if (task_count == 0) {
                 printf("登録されているタスクがありません。\n");
             } else {
-                showTasks(tasks, task_count);
+                showTasks(tasks, task_count, genres, genre_count);
                 printf("完了にするタスクの番号を入力してください: ");
                 int idx;
                 fflush(stdout);
                 if (scanf("%d", &idx) == 1) {
                     if (idx >= 0 && idx < task_count) {
                         completeTask(tasks, idx);
-                        saveTasks(tasks, task_count);
+                        saveTasks(tasks, task_count, genres, genre_count);
                         printf("タスク「%s」を完了にしました。\n", tasks[idx].title);
                     } else {
                         printf("無効なタスク番号です。\n");
@@ -86,7 +92,7 @@ void main_screen(void) {
             if (task_count == 0) {
                 printf("登録されているタスクがありません。\n");
             } else {
-                showTasks(tasks, task_count);
+                showTasks(tasks, task_count, genres, genre_count);
                 printf("削除するタスクの番号を入力してください: ");
                 int idx;
                 fflush(stdout);
@@ -98,7 +104,7 @@ void main_screen(void) {
                         
                         deleteTask(tasks, task_count, idx);
                         task_count--;
-                        saveTasks(tasks, task_count);
+                        saveTasks(tasks, task_count, genres, genre_count);
                         printf("タスク「%s」を削除しました。\n", deleted_title);
                     } else {
                         printf("無効なタスク番号です。\n");
@@ -107,10 +113,13 @@ void main_screen(void) {
                 while (getchar() != '\n');
             }
         } else if (choice == 5) {
+            // ジャンルの追加画面の呼び出し
+            input_genre();
+        } else if (choice == 6) {
             printf("プログラムを終了します。ご利用ありがとうございました。\n");
             break;
         } else {
-            printf("無効な選択です。1から5の数値を入力してください。\n");
+            printf("無効な選択です。1から6の数値を入力してください。\n");
         }
     }
 }
@@ -118,6 +127,7 @@ void main_screen(void) {
 void input_data(void) {
     char title[100];
     char deadline[100];
+    char genre[GENRE_LEN] = "未分類";
 
     printf("\n==================================================\n");
     printf("==                タスクの追加                  ==\n");
@@ -146,14 +156,81 @@ void input_data(void) {
                     strcpy(deadline, "なし");
                 }
                 
+                // ジャンル選択 (ジャンルが登録されている場合のみ)
+                if (genre_count > 0) {
+                    printf("\n以下のジャンルから選択してください:\n");
+                    for (int i = 0; i < genre_count; i++) {
+                        printf("  %d: %s\n", i, genres[i]);
+                    }
+                    printf("  %d: 未分類 (または指定なし)\n", genre_count);
+                    printf("番号を入力してください (デフォルト: 未分類):\n> ");
+                    fflush(stdout);
+                    
+                    char choice_str[30];
+                    if (fgets(choice_str, sizeof(choice_str), stdin) != NULL) {
+                        int g_idx = -1;
+                        if (sscanf(choice_str, "%d", &g_idx) == 1) {
+                            if (g_idx >= 0 && g_idx < genre_count) {
+                                strncpy(genre, genres[g_idx], GENRE_LEN - 1);
+                                genre[GENRE_LEN - 1] = '\0';
+                            }
+                        }
+                    }
+                }
+                
                 if (task_count >= MAX_TASKS) {
                     printf("これ以上タスクを追加できません（上限%d件）。\n", MAX_TASKS);
                 } else {
-                    addTask(tasks, task_count, title, deadline);
+                    addTask(tasks, task_count, title, deadline, genre);
                     task_count++;
-                    saveTasks(tasks, task_count);
-                    printf("\nタスク「%s」（期限: %s）を追加しました。\n", title, deadline);
+                    saveTasks(tasks, task_count, genres, genre_count);
+                    printf("\nタスク「%s」（期限: %s, ジャンル: %s）を追加しました。\n", title, deadline, genre);
                 }
+            }
+        }
+    }
+    
+    printf("\n[Enter] キーを押すとメインメニューに戻ります...\n");
+    fflush(stdout);
+    
+    // Enter待ち
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+static void input_genre(void) {
+    char genre_name[100];
+    printf("\n==================================================\n");
+    printf("==              ジャンルの追加                  ==\n");
+    printf("==================================================\n");
+    printf("追加するジャンルの名前を入力してください:\n");
+    printf("> ");
+    fflush(stdout);
+
+    if (fgets(genre_name, sizeof(genre_name), stdin) != NULL) {
+        genre_name[strcspn(genre_name, "\n")] = '\0';
+        
+        if (genre_name[0] == '\0') {
+            printf("ジャンル名が空です。追加をキャンセルしました。\n");
+        } else if (genre_count >= MAX_GENRES) {
+            printf("これ以上ジャンルを追加できません（上限%d件）。\n", MAX_GENRES);
+        } else {
+            // 重複チェック
+            int exists = 0;
+            for (int i = 0; i < genre_count; i++) {
+                if (strcmp(genres[i], genre_name) == 0) {
+                    exists = 1;
+                    break;
+                }
+            }
+            if (exists) {
+                printf("ジャンル「%s」は既に存在します。\n", genre_name);
+            } else {
+                strncpy(genres[genre_count], genre_name, GENRE_LEN - 1);
+                genres[genre_count][GENRE_LEN - 1] = '\0';
+                genre_count++;
+                saveTasks(tasks, task_count, genres, genre_count);
+                printf("\nジャンル「%s」を追加しました。\n", genre_name);
             }
         }
     }
