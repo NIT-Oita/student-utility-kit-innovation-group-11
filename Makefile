@@ -5,6 +5,7 @@ CFLAGS = -Wall
 # 出力先のフォルダ名を定義
 BIN_DIR = bin
 OBJ_DIR = obj
+$(OBJ_DIR)/ui.o: CFLAGS += -finput-charset=cp932 -fexec-charset=cp932
 
 # 実行ファイル名（binフォルダの中に作る）
 TARGET = $(BIN_DIR)/program.exe
