@@ -3,11 +3,34 @@
 #include "ui.h"
 #include "logic.h"
 #include "storage.h"
+#include <time.h>
 
 // 静的変数でタスク一覧を保持
 static Task tasks[MAX_TASKS];
 static int task_count = 0;
 static int is_loaded = 0; // 読込フラグ
+
+void mozi(){
+    fflush(stdin);
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {}
+}
+
+void get_today(int *y, int *m, int *d) {
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+
+    *y = t->tm_year + 1900;
+    *m = t->tm_mon + 1;
+    *d = t->tm_mday;
+}
+
+int is_past(int y, int m, int d, int ty, int tm, int td) {
+    if (y < ty) return 1;
+    if (y == ty && m < tm) return 1;
+    if (y == ty && m == tm && d < td) return 1;
+    return 0;
+}
 
 void start_screen(void) {
     printf("==================================================\n");
@@ -19,10 +42,8 @@ void start_screen(void) {
     printf("\n");
     printf("  [Enter] キーを押すとメインメニューに進みます...\n");
     fflush(stdout);
+    mozi();
 
-    // Enterキーの入力を待つ（入力バッファのクリアも兼ねる）
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 void main_screen(void) {
@@ -118,9 +139,13 @@ void main_screen(void) {
 void input_data(void) {
     char title[100];
     int year,month,day;
+    int ty, tm, td;
+    get_today(&ty, &tm, &td);
+
     if (task_count >= MAX_TASKS) {
         printf("これ以上タスクを追加できません（上限%d件）。\n", MAX_TASKS);
     }else if(task_count < MAX_TASKS){
+        while(1){
         printf("\n==================================================\n");
         printf("==                タスクの追加                  ==\n");
         printf("==================================================\n");
@@ -138,6 +163,7 @@ void input_data(void) {
                 printf("期限を入力してください（西暦）:\n");
                 printf("> ");
                 scanf_s("%d",&year);
+                fflush(stdout);
                 printf("\n期限を入力してください（月）:\n");
                 printf("> ");
                 scanf_s("%d",&month);
@@ -145,19 +171,25 @@ void input_data(void) {
                 printf("\n期限を入力してください（日）:\n");
                 printf("> ");
                 scanf_s("%d",&day);
-            
-                addTask(tasks, task_count, title, year,month,day);
-                task_count++;
-                saveTasks(tasks, task_count);
-                printf("\nタスク「%s」（期限: %d/%d/%d）を追加しました。\n", title, year,month,day);
+                fflush(stdout);
+                if (is_past(year, month, day, ty, tm, td)) {
+                    printf("エラー: 過去の日付は指定できません\n");
+                    mozi();
+                    
+                } else {
+                    addTask(tasks, task_count, title, year,month,day);
+                    task_count++;
+                    saveTasks(tasks, task_count);
+                    printf("\nタスク「%s」（期限: %d/%d/%d）を追加しました。\n", title, year,month,day);
+                    break;
+                }   
             }
+        }
+        }
     }
-}
     
-    printf("\n[Enter] キーを押すとメインメニューに戻ります...\n");
-    fflush(stdout);
-    
+   
     // Enter待ち
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+    printf("Enterキーでメインメニューに戻る\n");
+    mozi();
 }
