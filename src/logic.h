@@ -18,5 +18,6 @@ void addTask(Task tasks[], int count, char title[], int year,int month,int day);
 void completeTask(Task tasks[], int index);
 void deleteTask(Task tasks[], int count, int index);
 void showTasks(Task tasks[], int count);
+void sortTask(Task tasks[],int count);
 
 #endif
