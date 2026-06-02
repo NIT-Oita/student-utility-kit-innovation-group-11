@@ -2,8 +2,12 @@
 #include <string.h>
 #include "logic.h"
 
-// ƒ^ƒXƒN’Ç‰Á
+// ï¿½^ï¿½Xï¿½Nï¿½Ç‰ï¿½
+<<<<<<< HEAD
 void addTask(Task tasks[], int count, char title[],int year,int month,int day) {
+=======
+void addTask(Task tasks[], int count, char title[], char deadline[], char genre[]) {
+>>>>>>> feature2
     strncpy(tasks[count].title, title, TITLE_LEN - 1);
     tasks[count].title[TITLE_LEN - 1] = '\0';
     
@@ -11,34 +15,78 @@ void addTask(Task tasks[], int count, char title[],int year,int month,int day) {
     tasks[count].month = month;
     tasks[count].day = day;
     
-    tasks[count].completed = 0; // –¢Š®—¹‚Å‰Šú‰»
+    strncpy(tasks[count].genre, genre, GENRE_LEN - 1);
+    tasks[count].genre[GENRE_LEN - 1] = '\0';
+    
+    tasks[count].completed = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
-// ƒ^ƒXƒNŠ®—¹
+// ï¿½^ï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½
 void completeTask(Task tasks[], int index) {
     tasks[index].completed = 1;
 }
 
-// ƒ^ƒXƒNíœ
+// ï¿½^ï¿½Xï¿½Nï¿½íœ
 void deleteTask(Task tasks[], int count, int index) {
     for (int i = index; i < count - 1; i++) {
         tasks[i] = tasks[i + 1];
     }
 }
 
-// ƒ^ƒXƒNˆê——•\¦
-void showTasks(Task tasks[], int count) {
+// ï¿½^ï¿½Xï¿½Nï¿½ê——ï¿½\ï¿½ï¿½ï¿½iï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êj
+void showTasks(Task tasks[], int count, char genres[][GENRE_LEN], int genre_count) {
     if (count == 0) {
-        printf("\n  Œ»İA“o˜^‚³‚ê‚Ä‚¢‚éƒ^ƒXƒN‚Í‚ ‚è‚Ü‚¹‚ñB\n");
+        printf("\n  ï¿½ï¿½ï¿½İAï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½Í‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B\n");
+        // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍƒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê——ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æeï¿½ï¿½
+        if (genre_count > 0) {
+            printf("\n--- ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê—— ---\n");
+            for (int i = 0; i < genre_count; i++) {
+                printf("  ï¿½E %s\n", genres[i]);
+            }
+        }
         return;
     }
     printf("\n--------------------------------------------------\n");
     for (int i = 0; i < count; i++) {
         printf("  [%d] %s\n", i, tasks[i].title);
-        printf("      ŠúŒÀ: %d/%d/%d  /  ó‘Ô: %s\n", tasks[i].year,tasks[i].month,tasks[i].day, tasks[i].completed ? "Š®—¹" : "–¢Š®—¹");
+        printf("      ï¿½ï¿½ï¿½ï¿½: %d/%d/%d  /  ï¿½ï¿½ï¿½: %s\n", tasks[i].year,tasks[i].month,tasks[i].day, tasks[i].completed ? "ï¿½ï¿½ï¿½ï¿½" : "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         if (i < count - 1) {
             printf("  ------------------------------------------------\n");
+    
+    // ï¿½eï¿½ï¿½`ï¿½Ï‚İƒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
+    for (int g = 0; g < genre_count; g++) {
+        printf("\n================ [ %s ] ================\n", genres[g]);
+        int has_tasks = 0;
+        for (int i = 0; i < count; i++) {
+            if (strcmp(tasks[i].genre, genres[g]) == 0) {
+                printf("  [%d] %s\n", i, tasks[i].title);
+                printf("      ï¿½ï¿½ï¿½ï¿½: %s  /  ï¿½ï¿½ï¿½: %s\n", tasks[i].deadline, tasks[i].completed ? "ï¿½ï¿½ï¿½ï¿½" : "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                has_tasks = 1;
+            }
+        }
+        if (!has_tasks) {
+            printf("  (ï¿½ï¿½ï¿½ÌƒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒ^ï¿½Xï¿½Nï¿½Í‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½)\n");
         }
     }
-    printf("--------------------------------------------------\n");
+    
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ŞƒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
+    int has_unclassified = 0;
+    for (int i = 0; i < count; i++) {
+        int belongs_to_genre = 0;
+        for (int g = 0; g < genre_count; g++) {
+            if (strcmp(tasks[i].genre, genres[g]) == 0) {
+                belongs_to_genre = 1;
+                break;
+            }
+        }
+        if (!belongs_to_genre) {
+            if (!has_unclassified) {
+                printf("\n================ [ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ] ================\n");
+                has_unclassified = 1;
+            }
+            printf("  [%d] %s\n", i, tasks[i].title);
+            printf("      ï¿½ï¿½ï¿½ï¿½: %s  /  ï¿½ï¿½ï¿½: %s\n", tasks[i].deadline, tasks[i].completed ? "ï¿½ï¿½ï¿½ï¿½" : "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+        }
+    }
+    printf("\n--------------------------------------------------\n");
 }
