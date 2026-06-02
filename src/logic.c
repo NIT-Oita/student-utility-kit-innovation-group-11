@@ -3,12 +3,13 @@
 #include "logic.h"
 
 // ƒ^ƒXƒN’Ç‰Á
-void addTask(Task tasks[], int count, char title[], char deadline[]) {
+void addTask(Task tasks[], int count, char title[],int year,int month,int day) {
     strncpy(tasks[count].title, title, TITLE_LEN - 1);
     tasks[count].title[TITLE_LEN - 1] = '\0';
     
-    strncpy(tasks[count].deadline, deadline, DEADLINE_LEN - 1);
-    tasks[count].deadline[DEADLINE_LEN - 1] = '\0';
+    tasks[count].year = year;
+    tasks[count].month = month;
+    tasks[count].day = day;
     
     tasks[count].completed = 0; // –¢Š®—¹‚Å‰Šú‰»
 }
@@ -34,7 +35,7 @@ void showTasks(Task tasks[], int count) {
     printf("\n--------------------------------------------------\n");
     for (int i = 0; i < count; i++) {
         printf("  [%d] %s\n", i, tasks[i].title);
-        printf("      ŠúŒÀ: %s  /  ó‘Ô: %s\n", tasks[i].deadline, tasks[i].completed ? "Š®—¹" : "–¢Š®—¹");
+        printf("      ŠúŒÀ: %d/%d/%d  /  ó‘Ô: %s\n", tasks[i].year,tasks[i].month,tasks[i].day, tasks[i].completed ? "Š®—¹" : "–¢Š®—¹");
         if (i < count - 1) {
             printf("  ------------------------------------------------\n");
         }

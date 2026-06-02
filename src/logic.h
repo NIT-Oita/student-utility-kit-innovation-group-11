@@ -7,12 +7,14 @@
 
 typedef struct{
     char title[TITLE_LEN];
-    char deadline[DEADLINE_LEN];
+    int year;
+    int month;
+    int day;
     int completed;
 }Task;
 
 //ŠÖ”éŒ¾
-void addTask(Task tasks[], int count, char title[], char deadline[]);
+void addTask(Task tasks[], int count, char title[], int year,int month,int day);
 void completeTask(Task tasks[], int index);
 void deleteTask(Task tasks[], int count, int index);
 void showTasks(Task tasks[], int count);
