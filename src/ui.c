@@ -32,6 +32,7 @@ void start_screen(void) {
 
 void main_screen(void) {
     // �N������1�x�����f�[�^��ǂݍ���
+    // ?N??????1?x?????f?[?^???????
     if (!is_loaded) {
         task_count = loadTasks(tasks, genres, &genre_count);
         is_loaded = 1;
@@ -129,12 +130,21 @@ void input_data(void) {
 <<<<<<< HEAD
     int year,month,day;
     if (task_count >= MAX_TASKS) {
+<<<<<<< HEAD
         printf("����ȏ�^�X�N��ǉ��ł��܂���i���%d���j�B\n", MAX_TASKS);
     }else if(task_count < MAX_TASKS){
         printf("\n==================================================\n");
         printf("==                �^�X�N�̒ǉ�                  ==\n");
         printf("==================================================\n");
         printf("�ǉ�����^�X�N�̃^�C�g������͂��Ă�������:\n");
+=======
+        printf("??????^?X?N????????????i???%d???j?B\n", MAX_TASKS);
+    }else if(task_count < MAX_TASKS){
+        printf("\n==================================================\n");
+        printf("==                ?^?X?N????                  ==\n");
+        printf("==================================================\n");
+        printf("???????^?X?N??^?C?g?????????????????:\n");
+>>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
         printf("> ");
         fflush(stdout);
 =======
@@ -142,11 +152,16 @@ void input_data(void) {
     char genre[GENRE_LEN] = "������";
 >>>>>>> feature2
 
+<<<<<<< HEAD
         // �^�C�g�����́i���S��1�s�ǂݍ��ށj
+=======
+        // ?^?C?g??????i???S??1?s??????j
+>>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
         if (fgets(title, sizeof(title), stdin) != NULL) {
             title[strcspn(title, "\n")] = '\0';
         
             if (title[0] == '\0') {
+<<<<<<< HEAD
                 printf("�^�C�g������ł��B�^�X�N�̒ǉ����L�����Z�����܂����B\n");
             } else {
                 printf("��������͂��Ă��������i����j:\n");
@@ -157,12 +172,25 @@ void input_data(void) {
                 scanf_s("%d",&month);
                 fflush(stdout);
                 printf("\n��������͂��Ă��������i���j:\n");
+=======
+                printf("?^?C?g?????????B?^?X?N???????L?????Z??????????B\n");
+            } else {
+                printf("????????????????????i????j:\n");
+                printf("> ");
+                scanf_s("%d",&year);
+                printf("\n????????????????????i???j:\n");
+                printf("> ");
+                scanf_s("%d",&month);
+                fflush(stdout);
+                printf("\n????????????????????i???j:\n");
+>>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
                 printf("> ");
                 scanf_s("%d",&day);
             
                 addTask(tasks, task_count, title, year,month,day);
                 task_count++;
                 saveTasks(tasks, task_count);
+<<<<<<< HEAD
                 printf("\n�^�X�N�u%s�v�i����: %d/%d/%d�j��ǉ����܂����B\n", title, year,month,day);
             // ��������
             if (fgets(deadline, sizeof(deadline), stdin) != NULL) {
@@ -203,10 +231,14 @@ void input_data(void) {
                     saveTasks(tasks, task_count, genres, genre_count);
                     printf("\n�^�X�N�u%s�v�i����: %s, �W������: %s�j��ǉ����܂����B\n", title, deadline, genre);
                 }
+=======
+                printf("\n?^?X?N?u%s?v?i????: %d/%d/%d?j????????????B\n", title, year,month,day);
+>>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
             }
     }
 }
     
+<<<<<<< HEAD
     printf("\n[Enter] �L�[�������ƃ��C�����j���[�ɖ߂�܂�...\n");
     fflush(stdout);
     
@@ -256,6 +288,12 @@ static void input_genre(void) {
     fflush(stdout);
     
     // Enter�҂�
+=======
+    printf("\n[Enter] ?L?[??????????C?????j???[??????...\n");
+    fflush(stdout);
+    
+    // Enter???
+>>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }

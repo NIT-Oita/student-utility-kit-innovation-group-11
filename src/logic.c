@@ -90,3 +90,36 @@ void showTasks(Task tasks[], int count, char genres[][GENRE_LEN], int genre_coun
     }
     printf("\n--------------------------------------------------\n");
 }
+
+//タスクを日付順で並べ替える
+void sortTask(Task tasks[],int count){
+    for(int i =0;i < count -1;i++){
+        for(int j = 0;j < count - i -1;j++){
+        int swap_needed = 0;
+        /*0=並べ替え不要
+          1=並べ替え必要*/  
+
+            //年を比較
+            if(tasks[j].year<tasks[j + 1].year){
+                swap_needed = 1;
+            }else if(tasks[j].year == tasks[j + 1].year){
+                //年が同じなら月を比較
+                if(tasks[j].month < tasks[j + 1].month){
+                    swap_needed = 1;
+                    }else if(tasks[j].month == tasks[j + 1].month){
+                    //月が同じなら日を比較
+                        if(tasks[j].day < tasks[j + 1].day){
+                            swap_needed = 1;
+                }
+            }
+        }
+
+        //前のjの方が過去なら後ろのj+1と入れ替える
+            if(swap_needed == 1){
+            Task temp = tasks[j];//tempは空の箱
+            tasks[j] = tasks[j+1];
+            tasks[j+1] = temp;
+            }
+        }
+    }
+}

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "storage.h"
 
-// •Û‘¶—pƒtƒ@ƒCƒ‹‚ğÅ“K‚È‘Š‘ÎƒpƒX‚ÅŠJ‚­ƒwƒ‹ƒp[ŠÖ”
+// ????p?t?@?C??????K?????p?X??J???w???p?[???
 static FILE *openTaskFile(const char *mode) {
     FILE *file = fopen("data/task.bin", mode);
     if (file != NULL) {
@@ -14,26 +14,26 @@ static FILE *openTaskFile(const char *mode) {
     return fopen("task.bin", mode);
 }
 
-// ƒ^ƒXƒNEƒWƒƒƒ“ƒ‹•Û‘¶ŠÖ”
+// ï¿½^ï¿½Xï¿½Nï¿½Eï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½Öï¿½
 void saveTasks(const Task tasks[], int task_count, char genres[][GENRE_LEN], int genre_count) {
     FILE *file = openTaskFile("wb");
     if (file == NULL) {
-        perror("ƒtƒ@ƒCƒ‹‚ª•Û‘¶‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B");
+        perror("?t?@?C????????????????????B");
         return;
     }
     
-    // 1. ƒWƒƒƒ“ƒ‹”‚ğ‘‚«‚Ş
+    // 1. ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     fwrite(&genre_count, sizeof(int), 1, file);
     
-    // 2. ƒWƒƒƒ“ƒ‹”z—ñ‚ğ‘‚«‚Ş
+    // 2. ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if (genre_count > 0) {
         fwrite(genres, sizeof(char) * GENRE_LEN, genre_count, file);
     }
     
-    // 3. ƒ^ƒXƒN‚ÌŒÂ”‚ğ‘‚«‚Ş
+    // 3. ï¿½^ï¿½Xï¿½Nï¿½ÌŒÂï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     fwrite(&task_count, sizeof(int), 1, file);
     
-    // 4. ƒ^ƒXƒN”z—ñ‚ğ‘‚«‚Ş
+    // 4. ï¿½^ï¿½Xï¿½Nï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if (task_count > 0) {
         fwrite(tasks, sizeof(Task), task_count, file);
     }
@@ -41,24 +41,24 @@ void saveTasks(const Task tasks[], int task_count, char genres[][GENRE_LEN], int
     fclose(file);
 }
 
-// ƒ^ƒXƒNEƒWƒƒƒ“ƒ‹“ÇŠÖ”
+// ï¿½^ï¿½Xï¿½Nï¿½Eï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Çï¿½ï¿½Öï¿½
 int loadTasks(Task tasks[], char genres[][GENRE_LEN], int *genre_count) {
     FILE *file = openTaskFile("rb");
     if (file == NULL) {
-        // ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚È‚¢ê‡‚Í0‚ğ•Ô‚· (‰Šúó‘Ô)
+        // ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½0ï¿½ï¿½Ô‚ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
         *genre_count = 0;
         return 0;
     }
     
     int g_count = 0;
-    // 1. ƒWƒƒƒ“ƒ‹”‚ğ“Ç‚İ‚Ş
+    // 1. ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
     if (fread(&g_count, sizeof(int), 1, file) != 1) {
         fclose(file);
         *genre_count = 0;
         return 0;
     }
     
-    // ”ÍˆÍƒ`ƒFƒbƒN
+    // ï¿½ÍˆÍƒ`ï¿½Fï¿½bï¿½N
     if (g_count < 0 || g_count > MAX_GENRES) {
         fclose(file);
         *genre_count = 0;
@@ -67,7 +67,7 @@ int loadTasks(Task tasks[], char genres[][GENRE_LEN], int *genre_count) {
     
     *genre_count = g_count;
     
-    // 2. ƒWƒƒƒ“ƒ‹”z—ñ‚ğ“Ç‚İ‚Ş
+    // 2. ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
     if (g_count > 0) {
         int read_genres = fread(genres, sizeof(char) * GENRE_LEN, g_count, file);
         if (read_genres != g_count) {
@@ -78,19 +78,19 @@ int loadTasks(Task tasks[], char genres[][GENRE_LEN], int *genre_count) {
     }
     
     int t_count = 0;
-    // 3. ƒ^ƒXƒN‚ÌŒÂ”‚ğ“Ç‚İ‚Ş
+    // 3. ï¿½^ï¿½Xï¿½Nï¿½ÌŒÂï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
     if (fread(&t_count, sizeof(int), 1, file) != 1) {
         fclose(file);
         return 0;
     }
     
-    // ”ÍˆÍƒ`ƒFƒbƒN
+    // ï¿½ÍˆÍƒ`ï¿½Fï¿½bï¿½N
     if (t_count < 0 || t_count > MAX_TASKS) {
         fclose(file);
         return 0;
     }
     
-    // 4. ƒ^ƒXƒN”z—ñ‚ğ“Ç‚İ‚Ş
+    // 4. ï¿½^ï¿½Xï¿½Nï¿½zï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
     if (t_count > 0) {
         int read_tasks = fread(tasks, sizeof(Task), t_count, file);
         if (read_tasks != t_count) {
