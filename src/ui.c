@@ -4,35 +4,35 @@
 #include "logic.h"
 #include "storage.h"
 
-// ï¿½Ã“Iï¿½Ïï¿½ï¿½Åƒ^ï¿½Xï¿½Nï¿½ê——ï¿½ÆƒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê——ï¿½ï¿½Ûï¿½
+// Ã“I•Ï”‚Åƒ^ƒXƒNˆê——‚ÆƒWƒƒƒ“ƒ‹ˆê——‚ğ•Û
 static Task tasks[MAX_TASKS];
 static int task_count = 0;
 static char genres[MAX_GENRES][GENRE_LEN];
 static int genre_count = 0;
-static int is_loaded = 0; // ï¿½Çï¿½ï¿½tï¿½ï¿½ï¿½O
+static int is_loaded = 0; // “Ç‚İ‚İƒtƒ‰ƒO
 
-// ï¿½ï¿½ï¿½ï¿½ï¿½wï¿½ï¿½ï¿½pï¿½[ï¿½Öï¿½ï¿½éŒ¾
+// “à•”g—pŠÖ”éŒ¾
 static void input_genre(void);
+void input_data(void);
 
 void start_screen(void) {
     printf("==================================================\n");
     printf("==                                              ==\n");
-    printf("==            ï¿½wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Lï¿½bï¿½g                ==\n");
-    printf("==            - ï¿½Û‘ï¿½Ç—ï¿½ (TODO) -               ==\n");
+    printf("==            Šw¶¶Šˆx‰‡ƒc[ƒ‹                ==\n");
+    printf("==            - ‰Û‘èŠÇ— (TODO) -               ==\n");
     printf("==                                              ==\n");
     printf("==================================================\n");
     printf("\n");
-    printf("  [Enter] ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æƒï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½Éiï¿½İ‚Ü‚ï¿½...\n");
+    printf("  [Enter] ƒL[‚ğ‰Ÿ‚·‚ÆƒƒCƒ“ƒƒjƒ…[‚Éi‚İ‚Ü‚·...\n");
     fflush(stdout);
 
-    // Enterï¿½Lï¿½[ï¿½Ì“ï¿½ï¿½Í‚ï¿½Ò‚Âiï¿½ï¿½ï¿½Íƒoï¿½bï¿½tï¿½@ï¿½ÌƒNï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Ë‚ï¿½j
+    // EnterƒL[‚Ì“ü—Í‚ğ‘Ò‚Âi“ü—Íƒoƒbƒtƒ@‚ÌƒNƒŠƒA‚ğŒ“‚Ë‚éj
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
 void main_screen(void) {
-    // ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
-    // ?N??????1?x?????f?[?^???????
+    // ‹N“®‚É1“x‚¾‚¯ƒf[ƒ^‚ğ“Ç‚İ‚Ş
     if (!is_loaded) {
         task_count = loadTasks(tasks, genres, &genre_count);
         is_loaded = 1;
@@ -41,60 +41,61 @@ void main_screen(void) {
     int choice;
     while (1) {
         printf("\n==================================================\n");
-        printf("==                  ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[              ==\n");
+        printf("==                  ƒƒCƒ“ƒƒjƒ…[              ==\n");
         printf("==================================================\n");
-        printf("  1. ï¿½^ï¿½Xï¿½Nï¿½ê——ï¿½Ì•\ï¿½ï¿½\n");
-        printf("  2. ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½Ì’Ç‰ï¿½\n");
-        printf("  3. ï¿½^ï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½\n");
-        printf("  4. ï¿½^ï¿½Xï¿½Nï¿½Ìíœ\n");
-        printf("  5. ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’Ç‰ï¿½\n");
-        printf("  6. ï¿½Iï¿½ï¿½\n");
+        printf("  1. ƒ^ƒXƒNˆê——‚Ì•\¦\n");
+        printf("  2. V‚µ‚¢ƒ^ƒXƒN‚Ì’Ç‰Á\n");
+        printf("  3. ƒ^ƒXƒN‚ğŠ®—¹‚É‚·‚é\n");
+        printf("  4. ƒ^ƒXƒN‚Ìíœ\n");
+        printf("  5. V‚µ‚¢ƒWƒƒƒ“ƒ‹‚Ì’Ç‰Á\n");
+        printf("  6. I—¹\n");
         printf("==================================================\n");
-        printf("ï¿½Ôï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (1-6): ");
+        printf("”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢ (1-6): ");
         fflush(stdout);
 
         if (scanf("%d", &choice) != 1) {
-            // ï¿½ï¿½ï¿½ï¿½ï¿½È‚Ç‚ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ê‚½ï¿½ê‡ï¿½Ì–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ßAï¿½oï¿½bï¿½tï¿½@ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½
+            // •¶š‚È‚Ç‚ª“ü—Í‚³‚ê‚½ê‡‚Ì–³ŒÀƒ‹[ƒv‚ğ–h‚®‚½‚ßAƒoƒbƒtƒ@‚ğƒNƒŠƒA‚·‚é
             while (getchar() != '\n');
-            printf("ï¿½ï¿½ï¿½ï¿½ï¿½È“ï¿½ï¿½Í‚Å‚ï¿½ï¿½B1ï¿½ï¿½ï¿½ï¿½6ï¿½Ìï¿½ï¿½lï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B\n");
+            printf("–³Œø‚È“ü—Í‚Å‚·B1‚©‚ç6‚Ì”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B\n");
             continue;
         }
-        // scanfï¿½Åcï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï‚·ï¿½ï¿½
+        // scanf‚Åc‚Á‚½‰üs•¶š‚ğÁ”ï‚·‚é
         while (getchar() != '\n');
 
         if (choice == 1) {
-            printf("\n--- ï¿½^ï¿½Xï¿½Nï¿½ê—— ---\n");
+            printf("\n--- ƒ^ƒXƒNˆê—— ---\n");
+            sortTask(tasks, task_count);
             showTasks(tasks, task_count, genres, genre_count);
         } else if (choice == 2) {
-            // ï¿½^ï¿½Xï¿½Nï¿½Ç‰ï¿½ï¿½ï¿½Ê‚ÌŒÄ‚Ñoï¿½ï¿½
+            // ƒ^ƒXƒN’Ç‰Á‰æ–Ê‚ÌŒÄ‚Ño‚µ
             input_data();
         } else if (choice == 3) {
-            printf("\n--- ï¿½^ï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ ---\n");
+            printf("\n--- ƒ^ƒXƒN‚ğŠ®—¹‚É‚·‚é ---\n");
             if (task_count == 0) {
-                printf("ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B\n");
+                printf("“o˜^‚³‚ê‚Ä‚¢‚éƒ^ƒXƒN‚ª‚ ‚è‚Ü‚¹‚ñB\n");
             } else {
                 showTasks(tasks, task_count, genres, genre_count);
-                printf("ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ");
+                printf("Š®—¹‚É‚·‚éƒ^ƒXƒN‚Ì”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢: ");
                 int idx;
                 fflush(stdout);
                 if (scanf("%d", &idx) == 1) {
                     if (idx >= 0 && idx < task_count) {
                         completeTask(tasks, idx);
                         saveTasks(tasks, task_count, genres, genre_count);
-                        printf("ï¿½^ï¿½Xï¿½Nï¿½u%sï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\n", tasks[idx].title);
+                        printf("ƒ^ƒXƒNu%sv‚ğŠ®—¹‚É‚µ‚Ü‚µ‚½B\n", tasks[idx].title);
                     } else {
-                        printf("ï¿½ï¿½ï¿½ï¿½ï¿½Èƒ^ï¿½Xï¿½Nï¿½Ôï¿½ï¿½Å‚ï¿½ï¿½B\n");
+                        printf("–³Œø‚Èƒ^ƒXƒN”Ô†‚Å‚·B\n");
                     }
                 }
                 while (getchar() != '\n');
             }
         } else if (choice == 4) {
-            printf("\n--- ï¿½^ï¿½Xï¿½Nï¿½Ìíœ ---\n");
+            printf("\n--- ƒ^ƒXƒN‚Ìíœ ---\n");
             if (task_count == 0) {
-                printf("ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B\n");
+                printf("“o˜^‚³‚ê‚Ä‚¢‚éƒ^ƒXƒN‚ª‚ ‚è‚Ü‚¹‚ñB\n");
             } else {
                 showTasks(tasks, task_count, genres, genre_count);
-                printf("ï¿½íœï¿½ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½Ì”Ôï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ");
+                printf("íœ‚·‚éƒ^ƒXƒN‚Ì”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢: ");
                 int idx;
                 fflush(stdout);
                 if (scanf("%d", &idx) == 1) {
@@ -106,109 +107,64 @@ void main_screen(void) {
                         deleteTask(tasks, task_count, idx);
                         task_count--;
                         saveTasks(tasks, task_count, genres, genre_count);
-                        printf("ï¿½^ï¿½Xï¿½Nï¿½u%sï¿½vï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\n", deleted_title);
+                        printf("ƒ^ƒXƒNu%sv‚ğíœ‚µ‚Ü‚µ‚½B\n", deleted_title);
                     } else {
-                        printf("ï¿½ï¿½ï¿½ï¿½ï¿½Èƒ^ï¿½Xï¿½Nï¿½Ôï¿½ï¿½Å‚ï¿½ï¿½B\n");
+                        printf("–³Œø‚Èƒ^ƒXƒN”Ô†‚Å‚·B\n");
                     }
                 }
                 while (getchar() != '\n');
             }
         } else if (choice == 5) {
-            // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’Ç‰ï¿½ï¿½ï¿½Ê‚ÌŒÄ‚Ñoï¿½ï¿½
+            // ƒWƒƒƒ“ƒ‹‚Ì’Ç‰Á‰æ–Ê‚ÌŒÄ‚Ño‚µ
             input_genre();
         } else if (choice == 6) {
-            printf("ï¿½vï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½è‚ªï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\n");
+            printf("ƒvƒƒOƒ‰ƒ€‚ğI—¹‚µ‚Ü‚·B‚²—˜—p‚ ‚è‚ª‚Æ‚¤‚²‚´‚¢‚Ü‚µ‚½B\n");
             break;
         } else {
-            printf("ï¿½ï¿½ï¿½ï¿½ï¿½È‘Iï¿½ï¿½ï¿½Å‚ï¿½ï¿½B1ï¿½ï¿½ï¿½ï¿½6ï¿½Ìï¿½ï¿½lï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B\n");
+            printf("–³Œø‚È‘I‘ğ‚Å‚·B1‚©‚ç6‚Ì”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B\n");
         }
     }
 }
 
 void input_data(void) {
     char title[100];
-<<<<<<< HEAD
-    int year,month,day;
-    if (task_count >= MAX_TASKS) {
-<<<<<<< HEAD
-        printf("ï¿½ï¿½ï¿½ï¿½Èï¿½^ï¿½Xï¿½Nï¿½ï¿½Ç‰ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½%dï¿½ï¿½ï¿½jï¿½B\n", MAX_TASKS);
-    }else if(task_count < MAX_TASKS){
-        printf("\n==================================================\n");
-        printf("==                ï¿½^ï¿½Xï¿½Nï¿½Ì’Ç‰ï¿½                  ==\n");
-        printf("==================================================\n");
-        printf("ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½Xï¿½Nï¿½Ìƒ^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:\n");
-=======
-        printf("??????^?X?N????????????i???%d???j?B\n", MAX_TASKS);
-    }else if(task_count < MAX_TASKS){
-        printf("\n==================================================\n");
-        printf("==                ?^?X?N????                  ==\n");
-        printf("==================================================\n");
-        printf("???????^?X?N??^?C?g?????????????????:\n");
->>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
-        printf("> ");
-        fflush(stdout);
-=======
-    char deadline[100];
-    char genre[GENRE_LEN] = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
->>>>>>> feature2
+    int year, month, day;
+    char genre[GENRE_LEN] = "–¢•ª—Ş";
 
-<<<<<<< HEAD
-        // ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Íiï¿½ï¿½ï¿½Sï¿½ï¿½1ï¿½sï¿½Ç‚İï¿½ï¿½Şj
-=======
-        // ?^?C?g??????i???S??1?s??????j
->>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
+    if (task_count >= MAX_TASKS) {
+        printf("‚±‚êˆÈãƒ^ƒXƒN‚ğ’Ç‰Á‚Å‚«‚Ü‚¹‚ñiãŒÀ%dŒjB\n", MAX_TASKS);
+    } else {
+        printf("\n==================================================\n");
+        printf("==                ƒ^ƒXƒN‚Ì’Ç‰Á                  ==\n");
+        printf("==================================================\n");
+        printf("’Ç‰Á‚·‚éƒ^ƒXƒN‚Ìƒ^ƒCƒgƒ‹‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢:\n> ");
+        fflush(stdout);
+
+        // ƒ^ƒCƒgƒ‹“ü—ÍiˆÀ‘S‚É1s“Ç‚İ‚Şj
         if (fgets(title, sizeof(title), stdin) != NULL) {
             title[strcspn(title, "\n")] = '\0';
         
             if (title[0] == '\0') {
-<<<<<<< HEAD
-                printf("ï¿½^ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½Bï¿½^ï¿½Xï¿½Nï¿½Ì’Ç‰ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\n");
+                printf("ƒ^ƒCƒgƒ‹‚ª‹ó‚Å‚·Bƒ^ƒXƒN‚Ì’Ç‰Á‚ğƒLƒƒƒ“ƒZƒ‹‚µ‚Ü‚µ‚½B\n");
             } else {
-                printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½ï¿½j:\n");
-                printf("> ");
-                scanf_s("%d",&year);
-                printf("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½j:\n");
-                printf("> ");
-                scanf_s("%d",&month);
-                fflush(stdout);
-                printf("\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½j:\n");
-=======
-                printf("?^?C?g?????????B?^?X?N???????L?????Z??????????B\n");
-            } else {
-                printf("????????????????????i????j:\n");
-                printf("> ");
-                scanf_s("%d",&year);
-                printf("\n????????????????????i???j:\n");
-                printf("> ");
-                scanf_s("%d",&month);
-                fflush(stdout);
-                printf("\n????????????????????i???j:\n");
->>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
-                printf("> ");
-                scanf_s("%d",&day);
-            
-                addTask(tasks, task_count, title, year,month,day);
-                task_count++;
-                saveTasks(tasks, task_count);
-<<<<<<< HEAD
-                printf("\nï¿½^ï¿½Xï¿½Nï¿½u%sï¿½vï¿½iï¿½ï¿½ï¿½ï¿½: %d/%d/%dï¿½jï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\n", title, year,month,day);
-            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-            if (fgets(deadline, sizeof(deadline), stdin) != NULL) {
-                deadline[strcspn(deadline, "\n")] = '\0';
+                printf("”N‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢i—áF2026j:\n> ");
+                scanf_s("%d", &year);
+                printf("\nŒ‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢i—áF6j:\n> ");
+                scanf_s("%d", &month);
+                printf("\n“ú‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢i—áF15j:\n> ");
+                scanf_s("%d", &day);
                 
-                if (deadline[0] == '\0') {
-                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Íuï¿½È‚ï¿½ï¿½vï¿½Éİ’è‚·ï¿½ï¿½
-                    strcpy(deadline, "ï¿½È‚ï¿½");
-                }
+                // scanfŒã‚Ì‰üs‚ğÁ”ï
+                while (getchar() != '\n');
                 
-                // ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ (ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½Ì‚ï¿½)
+                // ƒWƒƒƒ“ƒ‹‘I‘ğ (ƒWƒƒƒ“ƒ‹‚ª“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Ì‚İ)
                 if (genre_count > 0) {
-                    printf("\nï¿½È‰ï¿½ï¿½ÌƒWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:\n");
+                    printf("\nˆÈ‰º‚ÌƒWƒƒƒ“ƒ‹‚©‚ç‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢:\n");
                     for (int i = 0; i < genre_count; i++) {
                         printf("  %d: %s\n", i, genres[i]);
                     }
-                    printf("  %d: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½Ü‚ï¿½ï¿½Íwï¿½ï¿½È‚ï¿½)\n", genre_count);
-                    printf("ï¿½Ôï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½g: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½):\n> ");
+                    printf("  %d: –¢•ª—Ş (‚Ü‚½‚Íw’è‚È‚µ)\n", genre_count);
+                    printf("”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢ (ƒfƒtƒHƒ‹ƒg: –¢•ª—Ş):\n> ");
                     fflush(stdout);
                     
                     char choice_str[30];
@@ -223,26 +179,22 @@ void input_data(void) {
                     }
                 }
                 
-                if (task_count >= MAX_TASKS) {
-                    printf("ï¿½ï¿½ï¿½ï¿½Èï¿½^ï¿½Xï¿½Nï¿½ï¿½Ç‰ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½%dï¿½ï¿½ï¿½jï¿½B\n", MAX_TASKS);
-                } else {
-                    addTask(tasks, task_count, title, deadline, genre);
-                    task_count++;
-                    saveTasks(tasks, task_count, genres, genre_count);
-                    printf("\nï¿½^ï¿½Xï¿½Nï¿½u%sï¿½vï¿½iï¿½ï¿½ï¿½ï¿½: %s, ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %sï¿½jï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\n", title, deadline, genre);
-                }
-=======
-                printf("\n?^?X?N?u%s?v?i????: %d/%d/%d?j????????????B\n", title, year,month,day);
->>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
+                addTask(tasks, task_count, title, year, month, day, genre);
+                task_count++;
+                
+                // •À‚×‘Ö‚¦‚ğÀs
+                sortTask(tasks, task_count);
+                
+                saveTasks(tasks, task_count, genres, genre_count);
+                printf("\nƒ^ƒXƒNu%sv(ŠúŒÀ: %04d/%02d/%02d, ƒWƒƒƒ“ƒ‹: %s)‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B\n", title, year, month, day, genre);
             }
+        }
     }
-}
     
-<<<<<<< HEAD
-    printf("\n[Enter] ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æƒï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½É–ß‚ï¿½Ü‚ï¿½...\n");
+    printf("\n[Enter] ƒL[‚ğ‰Ÿ‚·‚ÆƒƒCƒ“ƒƒjƒ…[‚É–ß‚è‚Ü‚·...\n");
     fflush(stdout);
     
-    // Enterï¿½Ò‚ï¿½
+    // Enter‘Ò‚¿
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
@@ -250,21 +202,20 @@ void input_data(void) {
 static void input_genre(void) {
     char genre_name[100];
     printf("\n==================================================\n");
-    printf("==              ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’Ç‰ï¿½                  ==\n");
+    printf("==              ƒWƒƒƒ“ƒ‹‚Ì’Ç‰Á                  ==\n");
     printf("==================================================\n");
-    printf("ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì–ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:\n");
-    printf("> ");
+    printf("’Ç‰Á‚·‚éƒWƒƒƒ“ƒ‹‚Ì–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢:\n> ");
     fflush(stdout);
 
     if (fgets(genre_name, sizeof(genre_name), stdin) != NULL) {
         genre_name[strcspn(genre_name, "\n")] = '\0';
         
         if (genre_name[0] == '\0') {
-            printf("ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½Bï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\n");
+            printf("ƒWƒƒƒ“ƒ‹–¼‚ª‹ó‚Å‚·B’Ç‰Á‚ğƒLƒƒƒ“ƒZƒ‹‚µ‚Ü‚µ‚½B\n");
         } else if (genre_count >= MAX_GENRES) {
-            printf("ï¿½ï¿½ï¿½ï¿½Èï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½%dï¿½ï¿½ï¿½jï¿½B\n", MAX_GENRES);
+            printf("‚±‚êˆÈãƒWƒƒƒ“ƒ‹‚ğ’Ç‰Á‚Å‚«‚Ü‚¹‚ñiãŒÀ%dŒjB\n", MAX_GENRES);
         } else {
-            // ï¿½dï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½N
+            // d•¡ƒ`ƒFƒbƒN
             int exists = 0;
             for (int i = 0; i < genre_count; i++) {
                 if (strcmp(genres[i], genre_name) == 0) {
@@ -273,27 +224,21 @@ static void input_genre(void) {
                 }
             }
             if (exists) {
-                printf("ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½u%sï¿½vï¿½ÍŠï¿½ï¿½É‘ï¿½ï¿½İ‚ï¿½ï¿½Ü‚ï¿½ï¿½B\n", genre_name);
+                printf("ƒWƒƒƒ“ƒ‹u%sv‚ÍŠù‚É‘¶İ‚µ‚Ü‚·B\n", genre_name);
             } else {
                 strncpy(genres[genre_count], genre_name, GENRE_LEN - 1);
                 genres[genre_count][GENRE_LEN - 1] = '\0';
                 genre_count++;
                 saveTasks(tasks, task_count, genres, genre_count);
-                printf("\nï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½u%sï¿½vï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½B\n", genre_name);
+                printf("\nƒWƒƒƒ“ƒ‹u%sv‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B\n", genre_name);
             }
         }
     }
     
-    printf("\n[Enter] ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æƒï¿½ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½É–ß‚ï¿½Ü‚ï¿½...\n");
+    printf("\n[Enter] ƒL[‚ğ‰Ÿ‚·‚ÆƒƒCƒ“ƒƒjƒ…[‚É–ß‚è‚Ü‚·...\n");
     fflush(stdout);
     
-    // Enterï¿½Ò‚ï¿½
-=======
-    printf("\n[Enter] ?L?[??????????C?????j???[??????...\n");
-    fflush(stdout);
-    
-    // Enter???
->>>>>>> ba350f2d1432345165ba4b21e53241b7b2ad4006
+    // Enter‘Ò‚¿
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
