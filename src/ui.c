@@ -130,6 +130,8 @@ void input_data(void) {
     char title[100];
     int year, month, day;
     char genre[GENRE_LEN] = "未分類";
+    int ty, tm, td;
+    get_today(&ty, &tm, &td);
 
     if (task_count >= MAX_TASKS) {
         printf("これ以上タスクを追加できません（上限%d件）。\n", MAX_TASKS);
