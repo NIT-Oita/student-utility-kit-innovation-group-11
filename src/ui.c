@@ -4,6 +4,30 @@
 #include "logic.h"
 #include "storage.h"
 
+#include <time.h>
+
+void mozi(){
+    fflush(stdin);
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {}
+}
+
+void get_today(int *y, int *m, int *d) {
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+
+    *y = t->tm_year + 1900;
+    *m = t->tm_mon + 1;
+    *d = t->tm_mday;
+}
+
+int is_past(int y, int m, int d, int ty, int tm, int td) {
+    if (y < ty) return 1;
+    if (y == ty && m < tm) return 1;
+    if (y == ty && m == tm && d < td) return 1;
+    return 0;
+}
+
 // 静的変数でタスク一覧とジャンル一覧を保持
 static Task tasks[MAX_TASKS];
 static int task_count = 0;
@@ -158,6 +182,12 @@ void input_data(void) {
                 
                 // scanf後の改行を消費
                 while (getchar() != '\n');
+                
+                if (is_past(year, month, day, ty, tm, td)) {
+                    printf("繧ｨ繝ｩ繝ｼ: 驕主悉縺ｮ譌･莉倥・謖・ｮ壹〒縺阪∪縺帙ｓ\n");
+                    mozi();
+                    return;
+                }
                 
                 // ジャンル選択 (ジャンルが登録されている場合のみ)
                 if (genre_count > 0) {
