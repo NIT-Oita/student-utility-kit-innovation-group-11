@@ -23,12 +23,29 @@ void get_today(int *y, int *m, int *d) {
 }
 
 // 入力された日付が今日より過去かどうかを判定する関数
-int is_past(int y, int m, int d, int ty, int tm, int td) {
+int wrong(int y, int m, int d, int ty, int tm, int td) {
+    // --- 不正な月日のチェック ---
+    if (m < 1 || m > 12) return 2;  // 不正な月
+    if (d < 1 || d > 31) return 3;  // 不正な日（1?31以外）
+
+    // 月ごとの最大日数チェック
+    int mdays[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+
+    // うるう年判定
+    int leap = (y % 400 == 0) || (y % 4 == 0 && y % 100 != 0);
+    if (leap) mdays[1] = 29;
+
+    if (d > mdays[m - 1]) return 4;  // その月に存在しない日
+
+    // --- 過去日チェック（同じ日は許可） ---
     if (y < ty) return 1;
     if (y == ty && m < tm) return 1;
     if (y == ty && m == tm && d < td) return 1;
-    return 0; // 過去ではない場合は0を返す
+
+    // 今日と同じ or 未来 → OK
+    return 0;
 }
+
 
 // 静的変数でタスク一覧とジャンル一覧をプログラム全体で保持
 static Task tasks[MAX_TASKS];
@@ -97,6 +114,7 @@ void main_screen(void) {
             printf("\n--- タスク一覧 ---\n");
             sortTask(tasks, task_count); // まず並べ替える
             showTasks(tasks, task_count, genres, genre_count); // そして表示する
+            mozi();
         } else if (choice == 2) {
             // タスク追加画面の呼び出し
             input_data();
@@ -197,8 +215,12 @@ void input_data(void) {
                 while (getchar() != '\n');
                 
                 // 入力された日付が今日より過去かどうかを判定
-                if (is_past(year, month, day, ty, tm, td)) {
-                    printf("エラー: 過去の日付は入力できません\n");
+                if (wrong(year, month, day, ty, tm, td)) {
+                    if(wrong(year, month, day, ty, tm, td) == 1){
+                        printf("エラー: 過去の日付は入力できません\n");
+                    }else if(wrong(year, month, day, ty, tm, td) == 2 || wrong(year, month, day, ty, tm, td) == 3){
+                        printf("エラー: 存在しない月日です\n");
+                    }
                     mozi(); // Enterキーが押されるまで待機する
                     return; // タスク追加を途中でやめてメインメニューに戻る
                 }
